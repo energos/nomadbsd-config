@@ -1,0 +1,65 @@
+! ~/.Xresources
+
+#define HIGH_DPI
+
+#ifdef HIGH_DPI
+    #define XSERVER_DPI 144
+    #define FIXED_FONT -*-lucidatypewriter-medium-r-normal-*-25-*-*-*-*-*-*-*
+    #define CURSOR_SIZE 32
+#else
+    #define XSERVER_DPI 96
+    #define FIXED_FONT -misc-fixed-medium-r-normal-*-20-*-*-*-*-*-*-*
+    #define CURSOR_SIZE 16
+#endif
+
+Xft.dpi:                XSERVER_DPI
+Xcursor.size:           CURSOR_SIZE
+
+Emacs.font:             Iosevka Term 11
+Emacs.verticalScrollBars: off
+Emacs.menuBar:          off
+Emacs.toolBar:          0
+Emacs.geometry:         108x56
+Emacs.cursorBlink:      off
+
+xterm*faceName:         Inconsolata:size=12
+xterm*termName:         xterm-256color
+!xterm*iconHint:         /home/energos/.local/share/icons/utilities-terminal.xpm
+xterm*geometry:         80x26
+xterm*title:            Terminal
+xterm*background:       black
+xterm*foreground:       white
+xterm*metaSendsEscape:  true
+xterm*backarrowKey:     false
+
+URxvt*font:             xft:Iosevka:size=11
+!URxvt*font:             xft:Source Code Pro:size=11
+URxvt*termName:         rxvt-unicode-256color
+URxvt*scrollBar:        false
+URxvt*savedLines:       1000
+URxvt*iso14755:         false
+URxvt*iso14755_52:      false
+!URxvt*iconFile:         /home/energos/.local/share/icons/Utilities-terminal.svg
+URxvt*geometry:         86x24
+URxvt*title:            Terminal
+!https://stackoverflow.com/questions/50689490/list-of-control-sequences-in-033-for-urxvt-keysym
+URxvt.keysym.C-1:       command:\033]10;white\007\033]11;black\007
+URxvt.keysym.C-2:       command:\033]10;yellow\007\033]11;dark blue\007
+URxvt.keysym.C-3:       command:\033]10;dark blue\007\033]11;khaki\007
+URxvt.keysym.C-4:       command:\033]10;black\007\033]11;white\007
+!http://stackoverflow.com/questions/8254705/redhat-linux-change-directory-color/8254921#8254921
+URxvt*background:       black
+URxvt*foreground:       white
+URxvt.color4:           RoyalBlue
+URxvt.color12:          LightSteelBlue
+!https://forums.gentoo.org/viewtopic-t-1030512-view-previous.html
+URxvt*preeditType:      Root
+!https://wiki.archlinux.org/title/IBus
+!URxvt*inputMethod: ibus
+!URxvt*preeditType: OverTheSpot
+
+Xmessage*font:          FIXED_FONT
+Xmessage*nearMouse:     FALSE
+Xmessage*center:        TRUE
+XFontSel*font:          FIXED_FONT
+Xmag*font:              FIXED_FONT

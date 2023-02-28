@@ -1,0 +1,40 @@
+#+TITLE:   NomadBSD Configuration
+#+OPTIONS: toc:nil num:nil html-postamble:nil
+#+STARTUP: showall
+
+Loose notes about [[https://nomadbsd.org/][NomadBSD]] configuration
+
+* Autosart applications
+: dsbautostart
+** Remove
+- plank
+- spurious extra picom
+- VBoxClient-all
+** Add
+- artha
+- gkrellm
+- ~/bin/hello-fortune
+
+* rc.conf
+: hostname="NomadBSD"
+: sshd_enable="YES"
+: init_vbox_enable="NO"
+
+* sysctl.conf
+: # https://forums.freebsd.org/threads/microfreezes-freebsd-13.85513/
+: # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=256594
+: kern.sched.steal_thresh=1
+: machdep.idle=mwait
+
+* synergy
+: pkg install synergy
+On client
+: synergyc server_ip
+On server
+: synergys --debug ERROR
+** ~/.synergy.conf
+
+
+* Issues
+** [[https://github.com/nomadbsd/NomadBSD/issues/138][Issue #138 - Very slow after upgrade, picom started twice]]
+** [[https://forum.nomadbsd.org/t/too-many-open-files-problem/157][Too many open files problem - NomadBSD Forum]]

@@ -1,0 +1,378 @@
+#!/usr/bin/env bash
+# echo "energos was here..."
+# echo "$1 | $2 | $3 | $4 | $5 | $6"
+# exit
+
+# I'll check later, I promisse...
+# shellcheck disable=2086,2015,2068,1090,2046
+
+# Load host/user specific configuration
+[[ -f ~/.pqprc ]] && . ~/.pqprc
+
+TERMINAL=urxvtcd
+ICONS=$HOME/.local/share/icons
+HIDEDESKTOP=${HIDEDESKTOP:-4}
+
+urxvtcd ()
+{
+    urxvtc 2> /dev/null "$@" || (urxvtd -q -f && urxvtc "$@")
+}
+
+show_window ()
+# show_window (CLASS DESKTOP)
+#
+# Search for a window of class CLASS and activate or hide it.
+#
+# if WINDOWS is in this desktop
+#    if active then hide
+#    else activate
+# else
+#    if WINDOWS is in 'other' desktop then bring it to this desktop and activate it
+#    else return 1
+# return 0
+#
+# search 'other' desktop: If DESKTOP is 0, search all desktops
+#                         If DESKTOP is HIDEDESKTOP, search only HIDEDESKTOP
+#
+{
+    [[ $force_new == 1 ]] && return 1
+
+    CLASS=$1
+    DESKTOP=$(xdotool get_desktop)
+
+    [[ -n $DEBUGPORT ]] && echo "Desperately seeking for a Window of class $CLASS" > "$DEBUGPORT"
+
+    WINDOW=$(xdotool search --desktop "$DESKTOP" --classname "$CLASS" | head -n 1)
+    if [[ -n $WINDOW ]]
+    then
+        if echo "$WINDOW" | grep -q "^$(xdotool getactivewindow)$" || xprop _NET_WM_STATE -id "$WINDOW" | grep -q _NET_WM_STATE_ABOVE
+        then
+            [[ -n $DEBUGPORT && $dont_hide == 0 ]] && echo "Window $WINDOW is ACTIVE so we HIDE it" > "$DEBUGPORT"
+            [[ -n $DEBUGPORT && $dont_hide != 0 ]] && echo "Window $WINDOW is ACTIVE but we DON'T HIDE it" > "$DEBUGPORT"
+            [[ $dont_hide == 0 ]] && xdotool set_desktop_for_window "$WINDOW" "$HIDEDESKTOP"
+        else
+            [[ -n $DEBUGPORT ]] && echo "Window $WINDOW is NOT ACTIVE so we SHOW it" > "$DEBUGPORT"
+            xdotool windowactivate "$WINDOW"
+        fi
+    else
+        WINDOW=$(for i in $(seq "$2" "$HIDEDESKTOP"); do xdotool search --desktop "$i" --classname "$CLASS"; done | head -n 1)
+        if [[ -n  $WINDOW ]]
+        then
+            [[ -n $DEBUGPORT ]] && echo "Window $WINDOW is in 'OTHER' DESKTOP so we BRING it BACK" > "$DEBUGPORT"
+            xdotool set_desktop_for_window "$WINDOW" "$DESKTOP"
+            xprop _NET_WM_STATE -id "$WINDOW" | grep -q _NET_WM_STATE_ABOVE || xdotool windowactivate "$WINDOW"
+        else
+            [[ -n $DEBUGPORT ]] && echo "Zero, zilch, zip, nada, nothing." > "$DEBUGPORT"
+            return 1
+        fi
+    fi
+    return 0
+}
+
+# contorno o fato de gmrun enfiar tudo em $1
+set -- $@
+
+# default is to search for CLASS in existent windows
+force_new=0
+# default is to hide window if active
+dont_hide=0
+# debug port
+# DEBUGPORT=""
+# DEBUGPORT=/dev/pts/10
+DEBUGPORT=${DEBUGPORT:-""}
+
+# parse options
+while getopts ":hn" option; do
+    case $option in
+        n)  [[ -n $DEBUGPORT ]] && echo "n: Force new instance" > "$DEBUGPORT"
+            # abort search and run a new program instance
+            force_new=1
+            ;;
+        h)  [[ -n $DEBUGPORT ]] && echo "h: Do not hide window even if active" > "$DEBUGPORT"
+            # do not hide active window
+            dont_hide=1
+            ;;
+        \?) [[ -n $DEBUGPORT ]] && echo "?: ${0##*/}: Invalid option -$OPTARG" > "$DEBUGPORT"
+            tty -s && echo "${0##*/}: Invalid option -$OPTARG"
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+case "$1" in
+    "")
+        show_window ^Terminal$ $HIDEDESKTOP || $TERMINAL -name Terminal
+        ;;
+    "konsole")
+        show_window ^konsole$ $HIDEDESKTOP || konsole &
+        ;;
+    "emacs")
+        show_window ^Emacs$ $HIDEDESKTOP || (emacsclient -c -n -a "emacs -fh -g +0+0" 2> /dev/null &)
+        ;;
+    "firefox")
+        show_window ^Navigator$ $HIDEDESKTOP || (firefox &> /dev/null &)
+        ;;
+    "navigator")
+        navigator=${NAVIGATOR:-firefox}
+        desktop=$HIDEDESKTOP
+        behavior="nice"
+        case "$navigator" in
+            midori)
+                navigator_class=Midori
+                # bad behavior workaround
+                # midori does not open a new window if an instance is already running
+                desktop=0       # search in all desktops
+                ;;
+            firefox)
+                navigator_class=Navigator
+                ;;
+            falkon)
+                navigator_class=Falkon\ Browser
+                ;;
+            qutebrowser)
+                navigator_class=qutebrowser
+                ;;
+            dillo)
+                navigator_class=dillo
+                behavior="ugly"
+                ;;
+            netsurf-gtk3|netsurf)
+                navigator=netsurf-gtk3
+                navigator_class=netsurf-gtk3
+                behavior="ugly"
+                ;;
+            *)
+                tty -s && echo "Browser $navigator not defined" || (LANG=C xmessage "Browser $navigator not defined" &)
+                exit 1
+                ;;
+        esac
+        shift
+        if [[ $behavior == "ugly" && -n $* ]]; then
+            # Ugly browsers do not allow to open a URL in a new tab in a existing
+            # window via command line (or I just don't know how to do that),
+            # so we just start a new instance
+            $navigator "$*" &> /dev/null &
+        else
+            [[ -n $* ]] && dont_hide=1
+            show_window "^$navigator_class$" $desktop || ($navigator &> /dev/null &)
+            [[ -n $DEBUGPORT && -n $* ]] && echo "Opening $*" > "$DEBUGPORT"
+            # yet another ugly hack (if you need to sleep there is something not quite right)
+            [[ -n $* ]] && (sleep 0.5 && $navigator "$*" &> /dev/null &)
+        fi
+        ;;
+    "search")
+        case "$2" in
+            "youtube")
+                engine="https://www.youtube.com/results?search_query="
+                ;;
+            "dictionary")
+                engine="https://en.oxforddictionaries.com/definition/"
+                ;;
+            "urban-dictionary")
+                engine="https://www.urbandictionary.com/define.php?term="
+                ;;
+            "kabum")
+                engine="https://www.kabum.com.br/cgi-local/site/listagem/listagem.cgi?string="
+                ;;
+            "tweakers")
+                engine="https://tweakers.net/zoeken/?keyword="
+                ;;
+            "hardware.info")
+                engine="https://nl.hardware.info/#search:"
+                ;;
+            "stack-overflow")
+                engine="https://stackoverflow.com/search?q="
+                ;;
+            "wikipedia")
+                engine="https://www.wikipedia.org/search-redirect.php?language=en&go=Go&search="
+                ;;
+            *)
+                engine="https://www.google.com/search?q="
+                ;;
+        esac
+        pqp navigator "$engine$(xclip -selection clipboard -o)"
+        ;;
+    "mc")
+        show_window ^MidnightCommander$ $HIDEDESKTOP || $TERMINAL -icon "$ICONS/mc.svg" -title "Midnight Commander" -name MidnightCommander -sl 0 -geometry 96x36 -e $@ -d
+        ;;
+    "gkrellm")
+        show_window ^Gkrellm$ 0 || (gkrellm &)
+        ;;
+    "cmus")
+        show_window ^cmusMusicPlayer$ 0 || $TERMINAL -icon "$ICONS/Audio-x-generic.svg" -name cmusMusicPlayer -title "C* Music Player" -sl 0 -geometry 64x18-0+0 -e cmus
+        ;;
+    "pdf")
+        if ! show_window "^org.pwmt.zathura$|^okular$|^qpdfview$" $HIDEDESKTOP; then
+            shift
+            if [[ -z $* ]]; then
+                # No command line parameter, get file name from the last file opened by the document viewer
+                case "$(xdg-mime query default application/pdf)" in
+                    "okularApplication_pdf.desktop")
+                        file=$(grep ^File $HOME/.config/okularrc | tail -1 | cut -d = -f 2 | xargs -d '\n' -I % sh -c '{ [[ -f "%" ]] && echo "%"; }')
+                        ;;
+                    "org.pwmt.zathura.desktop")
+                        file=$(awk 'BEGIN { RS=""; FS="\n" } /^[^#]/ { print $11 " " $1 }' "$HOME/.local/share/zathura/history" | sort -r | head -n 10 | awk -F '[\\[\\]]' '{ print $2 }' | xargs -d '\n' -I % sh -c '{ [[ -f "%" ]] && echo "%"; }' | tail -n +1 | head -n 1)
+                        ;;
+                    *)
+                        file=$HOME/Books/default
+                        ;;
+                esac
+            else
+                # Get file name from command line parameter
+                file="$*"
+            fi
+            [[ -f "$file" ]] && gtk-launch $(xdg-mime query default application/pdf) "$file" || gtk-launch $(xdg-mime query default application/pdf)
+        fi
+        ;;
+    "man")
+        $TERMINAL -icon "$ICONS/Blue_question_mark_icon.svg" -title "$*" -bl -sl 0 -geometry +0+0 -e sh -c "$* || read -n 1 -s -p 'Press any key to exit!'" && sleep 0.05 && wmctrl -r :ACTIVE: -b add,maximized_vert &
+        ;;
+    "info")
+        $TERMINAL -icon "$ICONS/Blue_question_mark_icon.svg" -title "$*" -bl -sl 0 -geometry +0+0 -e $@ && sleep 0.05 && wmctrl -r :ACTIVE: -b add,maximized_vert &
+        ;;
+    "help")
+        $TERMINAL -icon "$ICONS/Blue_question_mark_icon.svg" -title "$*" -sl 0 -geometry +458+0 -e sh -c "$* | less"
+        ;;
+    "logs")
+        show_window ^freakingLogs$ 0 || $TERMINAL -icon "$ICONS/data-information.svg" -name freakingLogs -title "Freaking System Log" -sl 0 -geometry 88x20-0-16 -e dmesg -wT
+        ;;
+    "calendar")
+        show_window ^freakingCalendar$ 0 || $TERMINAL -icon "$ICONS/data-information.svg" -name freakingCalendar -title CALENDAR -geometry 70x36 -e sh -c "cal --color=always `date +%Y`; setterm -cursor off; read -n 1 -s -p 'Press any key to exit!'"
+        ;;
+    "res")
+        case "$2" in
+            "1")
+                # SCALE 1
+                xrandr --output DisplayPort-0 --auto --pos 0x0 --output HDMI-0 --auto --panning 1920x1080+3840+1080 --scale 1x1 --pos 3840x1080
+                # Sometimes it doesn't work on the first try...
+                sleep 0.5
+                xrandr --output DisplayPort-0 --auto --pos 0x0 --output HDMI-0 --auto --panning 1920x1080+3840+1080 --scale 1x1 --pos 3840x1080
+                ;;
+            "2")
+                # SCALE 1.5
+                xrandr --output DisplayPort-0 --auto --pos 0x0 --output HDMI-0 --auto --panning 2880x1620+3840+540 --scale 1.5x1.5 --pos 3840x540
+                # Sometimes it doesn't work on the first try...
+                sleep 0.5
+                xrandr --output DisplayPort-0 --auto --pos 0x0 --output HDMI-0 --auto --panning 2880x1620+3840+540 --scale 1.5x1.5 --pos 3840x540
+                ;;
+            *)
+                # SCALE 1.65
+                xrandr --output DisplayPort-0 --auto --pos 0x0 --output HDMI-0 --auto --panning 3168x1782+3840+220 --scale 1.65x1.65 --pos 3840x220
+                # Sometimes it doesn't work on the first try...
+                sleep 0.5
+                xrandr --output DisplayPort-0 --auto --pos 0x0 --output HDMI-0 --auto --panning 3168x1782+3840+220 --scale 1.65x1.65 --pos 3840x220
+                ;;
+        esac
+        ;;
+    "ww")
+        # set active window width
+        # ugly hack to give gmrum time to shut off
+        sleep 0.01 && wmctrl -r :ACTIVE: -e "0,-1,-1,$2,-1" &
+        ;;
+    "wh")
+        # set active window height
+        # ugly hack to give gmrum time to shut off
+        sleep 0.01 && wmctrl -r :ACTIVE: -e "0,-1,-1,-1,$2" &
+        ;;
+    "volume")
+        # case "$2" in
+        #     "up")
+        #         [[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute || pulsemixer --change-volume +1 --unmute
+        #         ;;
+        #     "down")
+        #         [[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute || pulsemixer --change-volume -1 --unmute
+        #         ;;
+        #     "toggle")
+        #         pulsemixer --toggle-mute
+        #         ;;
+        # esac
+        # ;;
+        volume=${ALSA_VOLUME:-Master}
+        mute=${ALSA_MUTE:-Master}
+        case "$2" in
+            "up")
+                amixer sget "$mute" | grep '\[off\]' &> /dev/null && amixer -q sset "$mute" unmute || amixer -q sset "$volume" 1%+
+                ;;
+            "down")
+                amixer sget "$mute" | grep '\[off\]' &> /dev/null && amixer -q sset "$mute" unmute || amixer -q sset "$volume" 1%-
+                ;;
+            "toggle")
+                amixer -q sset "$mute" toggle
+                ;;
+            "")
+                show_window ^Pavucontrol$ 0 || pavucontrol &
+                ;;
+            *)
+                [[ -n "$2" ]] && amixer -q sset "$volume" $2
+                ;;
+        esac
+        ;;
+    "font")
+        tty -s || exit
+        # https://superuser.com/questions/418699/
+        DPI=$(xdpyinfo | awk -F'[ x]+' '/resolution:/{print $3}')
+        THRESHOLD=${THRESHOLD:-120}
+        if (( DPI > THRESHOLD )); then
+            # echo "HIGH DPI"
+            [[ "$TERM" == "xterm" ]] && default=12 || default=11
+            size=${2:-${default}}
+            if (( size < 8 || size > 24)); then
+                echo "\"${size}\" is not in the range (8..24)"
+                exit
+            fi
+            font_rxvt="xft:Iosevka:size=${size}"
+            font_xterm="Inconsolata:size=${size}"
+        else
+            # echo "low DPI"
+            size=${2:-"medium"}
+            case "$size" in
+                "tiny")
+                    font_rxvt="-misc-fixed-medium-r-normal-*-10-*-*-*-*-*-*-*"
+                    font_xterm=${font_rxvt}
+                    ;;
+                "small")
+                    font_rxvt="-misc-fixed-medium-r-normal-*-13-*-*-*-*-*-*-*"
+                    font_xterm=${font_rxvt}
+                    ;;
+                "medium")
+                    font_rxvt="-misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*"
+                    font_xterm=${font_rxvt}
+                    ;;
+                "large")
+                    font_rxvt="-misc-fixed-medium-r-normal-*-15-*-*-*-*-*-*-*"
+                    font_xterm=${font_rxvt}
+                    ;;
+                "huge")
+                    font_rxvt="xft:xos4 Terminus:size=16"
+                    font_xterm="-misc-fixed-medium-r-normal-*-20-*-*-*-*-*-*-*"
+                    ;;
+                *)
+                    echo "\"${size}\" is neither \"tiny\" nor \"small\" nor \"medium\" nor \"large\" nor \"huge\""
+                    exit
+                    ;;
+            esac
+        fi
+        case "${TERM}" in
+            "xterm"*)
+                # echo "This is xterm - size is ${size} - font is ${font_xterm}"
+                xtermcontrol --font "${font_xterm}"
+                ;;
+            "rxvt"*)
+                # echo "This is urxvt - size is ${size} - font is ${font_rxvt}"
+                printf '\e]710;%s\007' "${font_rxvt}"
+                ;;
+            *)
+                echo "\"${TERM}\" is neither \"xterm\" nor \"rxvt\""
+                ;;
+        esac
+        ;;
+    "title")
+        shift
+        tty -s && printf '\e]0;%s\a' "$*"
+        ;;
+    *)
+        $TERMINAL -title "$*" -e $@
+esac
+
+exit 0

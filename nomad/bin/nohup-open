@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# https://wiki.archlinux.org/index.php/Midnight_Commander#Opening_files
+
+# # test!
+# xmessage -center "$@" &
+# exit
+
+nohup xdg-open "$@" &> /dev/null &
