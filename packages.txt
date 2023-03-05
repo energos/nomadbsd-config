@@ -82,7 +82,7 @@ i   kdiff3
     ko-hunspell
 i   konsole
 i   kpat
-i   ktorrent
+x   ktorrent
     leafpad
     libinput
 i   libreoffice
@@ -154,7 +154,7 @@ i   the_silver_searcher
 x   thunderbird
     tint2
 i   tmux
-x   transmission-qt
+i   transmission-qt
     uk-aspell
     uk-hunspell
     urwfonts
