@@ -1,5 +1,11 @@
-    Kvantum-qt5
-    ar-aspell
+# package manager lazy helper
+# install:
+#    pkg install $(awk '/^i[ ]/{print $2}' /home/nomad/packages.txt)
+# uninstall:
+#    pkg delete $(awk '/^x[ ]/{print $2}' /home/nomad/packages.txt)
+
+x   Kvantum-qt5
+x   ar-aspell
     arandr
 i   artha
     aspell
@@ -14,20 +20,19 @@ i   bsdinfo
     bsdtris
     bwi-firmware-kmod
     bwn-firmware-kmod
-i   calibre
-    cantarell-fonts
+x   cantarell-fonts
     cmake
 i   curl
     dconf
     ddrescue
-    de-aspell
-    de-hunspell
+x   de-aspell
+x   de-hunspell
 i   deadbeef
     dmenu
     doas
     drm-510-kmod
     drm-kmod
-    droid-fonts-ttf
+x   droid-fonts-ttf
     dsbautostart
     dsbbatmon
     dsbdriverd
@@ -45,10 +50,10 @@ i   emacs
 x   filezilla
     firefox-esr
     fish
-    font-gost
+x   font-gost
 i   fortune-mod-freebsd-classic
-    fr-aspell
-    fr-hunspell
+x   fr-aspell
+x   fr-hunspell
     freefont-ttf
     fusefs-ext2
     fusefs-hfsfuse
@@ -56,36 +61,41 @@ i   fortune-mod-freebsd-classic
 x   galculator
 i   gcc
 i   geany
-    gimp-gutenprint
+x   gimp-app
+x   gimp-gutenprint
 i   git
 i   gkrellm2
     gmake
 i   gnome-themes-extra
     gnupg
     gpu-firmware-kmod
+i   graphviz
     gtkam
-    hanazono-fonts-ttf
+i   hack-font
+x   hanazono-fonts-ttf
     hexchat
-    hplip
+x   hplip
 i   htop
-    hu-aspell
-    hu-hunspell
+x   hu-aspell
+x   hu-hunspell
     hunspell
     hw-probe
     ibus
-    iw-aspell
-    iw-hunspell
+i   inconsolata-ttf
+x   iw-aspell
+x   iw-hunspell
 i   julia
-i   kate
-i   kdiff3
+x   kate
+x   kdiff3
     keepassxc
-    ko-hunspell
-i   konsole
-i   kpat
+x   ko-hunspell
+x   konsole
+x   kpat
 x   ktorrent
     leafpad
+i   liberation-fonts-ttf
     libinput
-i   libreoffice
+x   libreoffice
 i   libvterm
     lxappearance
     lynx
@@ -103,8 +113,8 @@ i   neofetch
     nmap
     nss_mdns
     obconf
-    octopkg
-i   okular
+x   octopkg
+x   okular
     openbox
     p5-IO-KQueue
     p5-XML-LibXML
@@ -117,26 +127,29 @@ i   pdf-tools
     pidgin-otr
     pkg
     pkgconf
-    pl-aspell
-    pl-hunspell
+x   pl-aspell
+x   pl-hunspell
 x   plank
     powerdxx
     pt-hunspell
     py39-qt5
     py39-xdg
+i   python
     python3
 i   qiv
     qpdfview
-    qt5-buildtools
+x   qt5-buildtools
+x   qt5-designer
     qt5-linguisttools
-    qt5-qmake
-    qt5-style-plugins
+x   qt5-qmake
+x   qt5-style-plugins
     qt5ct
     realtek-re-kmod
-    redshift
+x    redshift
+i   rsync
     rtsx
-    ru-aspell
-    ru-hunspell
+x   ru-aspell
+x   ru-hunspell
 i   rxvt-unicode
     sakura
     sddm
@@ -148,22 +161,22 @@ i   slock
     sourcecodepro-ttf
     sudo
 i   synergy
-    terminus-font
+i   terminus-font
 i   the_silver_searcher
     thunar
 x   thunderbird
     tint2
 i   tmux
 i   transmission-qt
-    uk-aspell
-    uk-hunspell
+x   uk-aspell
+x   uk-hunspell
     urwfonts
     urwfonts-ttf
-    vi-aspell
-    vi-hunspell
+x   vi-aspell
+x   vi-hunspell
     viewnior
     vim-x11
-x   virtualbox-ose-additions
+    virtualbox-ose-additions
 x   vlc
     webfonts
 i   wget
@@ -195,7 +208,7 @@ i   xdotool
     xmag
     xmessage
 i   xmodmap
-    xorg-fonts
+i   xorg-fonts
     xrandr
     xrdb
     xsane
