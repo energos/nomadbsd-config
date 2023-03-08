@@ -1,8 +1,10 @@
 # package manager lazy helper
-# install:
-#    pkg install $(awk '/^i[ ]/{print $2}' /home/nomad/packages.txt)
-# uninstall:
-#    pkg delete $(awk '/^x[ ]/{print $2}' /home/nomad/packages.txt)
+# x: uninstall
+#    pkg delete $(awk '$1=="x"{print $2}' packages.txt)
+# i: install
+#    pkg install $(awk '$1=="i"{print $2}' packages.txt)
+# b: install only basic packages
+#    pkg install $(awk '$1=="i" && $3=="b"{print $2}' packages.txt)
 
 x   Kvantum-qt5
 x   ar-aspell
@@ -10,19 +12,19 @@ x   ar-aspell
 i   artha
     aspell
     avahi-app
-i   bash
-i   bash-completion
+i   bash                        b
+i   bash-completion             b
     bitstream-vera
     bonnie++
 i   bsdhwmon
-i   bsdinfo
+i   bsdinfo                     b
     bsdstats
     bsdtris
     bwi-firmware-kmod
     bwn-firmware-kmod
 x   cantarell-fonts
     cmake
-i   curl
+i   curl                        b
     dconf
     ddrescue
 x   de-aspell
@@ -42,7 +44,7 @@ x   droid-fonts-ttf
     dsbmd
     dsbmixer
     dunst
-i   e2fsprogs
+i   e2fsprogs                   b
 i   emacs
     en-aspell
     en-hunspell
@@ -51,7 +53,7 @@ x   filezilla
     firefox-esr
     fish
 x   font-gost
-i   fortune-mod-freebsd-classic
+i   fortune-mod-freebsd-classic b
 x   fr-aspell
 x   fr-hunspell
     freefont-ttf
@@ -63,7 +65,7 @@ i   gcc
 i   geany
 x   gimp-app
 x   gimp-gutenprint
-i   git
+i   git                         b
 i   gkrellm2
     gmake
 i   gnome-themes-extra
@@ -75,7 +77,7 @@ i   hack-font
 x   hanazono-fonts-ttf
     hexchat
 x   hplip
-i   htop
+i   htop                        b
 x   hu-aspell
 x   hu-hunspell
     hunspell
@@ -100,17 +102,18 @@ i   libvterm
     lxappearance
     lynx
 i   magit
-i   mc
+x   mc
+i   mc-nox11                    b
 i   meld
     metalock
     mosh
 i   mpv
     mupdf
-i   nano
-i   neofetch
+i   nano                        b
+i   neofetch                    b
     neomutt
     networkmgr
-    nmap
+i   nmap                        b
     nss_mdns
     obconf
 x   octopkg
@@ -125,7 +128,7 @@ i   pdf-tools
     picom
     pidgin
     pidgin-otr
-    pkg
+i   pkg                         b
     pkgconf
 x   pl-aspell
 x   pl-hunspell
@@ -134,7 +137,7 @@ x   plank
     pt-hunspell
     py39-qt5
     py39-xdg
-i   python
+i   python                      b
     python3
 i   qiv
     qpdfview
@@ -145,8 +148,8 @@ x   qt5-qmake
 x   qt5-style-plugins
     qt5ct
     realtek-re-kmod
-x    redshift
-i   rsync
+x   redshift
+i   rsync                       b
     rtsx
 x   ru-aspell
 x   ru-hunspell
@@ -162,11 +165,11 @@ i   slock
     sudo
 i   synergy
 i   terminus-font
-i   the_silver_searcher
+i   the_silver_searcher         b
     thunar
 x   thunderbird
     tint2
-i   tmux
+i   tmux                        b
 i   transmission-qt
 x   uk-aspell
 x   uk-hunspell
@@ -179,7 +182,7 @@ x   vi-hunspell
     virtualbox-ose-additions
 x   vlc
     webfonts
-i   wget
+i   wget                        b
 i   wmctrl
     x264
     xarchiver
@@ -215,5 +218,5 @@ i   xorg-fonts
 i   xterm
 i   xtermcontrol
     zenity
-i   zile
+i   zile                        b
     zsh
