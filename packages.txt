@@ -1,10 +1,8 @@
 # package manager lazy helper
-# x: uninstall
-#    pkg delete $(awk '$1=="x"{print $2}' packages.txt)
-# i: install
-#    pkg install $(awk '$1=="i"{print $2}' packages.txt)
-# b: install only basic packages
-#    pkg install $(awk '$1=="i" && $3=="b"{print $2}' packages.txt)
+# x:    uninstall        - pkg delete $(awk '$1=="x"{print $2}' packages.txt)
+# i:    install          - pkg install $(awk '$1=="i"{print $2}' packages.txt)
+# b:    basic packages   - pkg install $(awk '$1=="i" && $3=="b"{print $2}' packages.txt)
+# ob:   openbox desktop  - pkg install $(awk '$1=="i" && $3=="ob"{print $2}' packages.txt)
 
 x   Kvantum-qt5
 x   ar-aspell
@@ -25,12 +23,13 @@ i   bsdinfo                     b
 x   cantarell-fonts
     cmake
 i   curl                        b
+i   dbus                        ob
     dconf
     ddrescue
 x   de-aspell
 x   de-hunspell
 i   deadbeef
-    dmenu
+i   dmenu                       ob
     doas
     drm-510-kmod
     drm-kmod
@@ -48,7 +47,7 @@ i   e2fsprogs                   b
 i   emacs
     en-aspell
     en-hunspell
-    feh
+i   feh                         ob
 x   filezilla
     firefox-esr
     fish
@@ -68,12 +67,12 @@ x   gimp-gutenprint
 i   git                         b
 i   gkrellm2
     gmake
-i   gnome-themes-extra
+i   gnome-themes-extra          ob
     gnupg
     gpu-firmware-kmod
 i   graphviz
     gtkam
-i   hack-font
+i   hack-font                   ob
 x   hanazono-fonts-ttf
     hexchat
 x   hplip
@@ -84,7 +83,7 @@ x   hu-hunspell
     hunspell
     hw-probe
     ibus
-i   inconsolata-ttf
+i   inconsolata-ttf             ob
 x   iw-aspell
 x   iw-hunspell
 i   julia                       b
@@ -96,11 +95,11 @@ x   konsole
 x   kpat
 x   ktorrent
     leafpad
-i   liberation-fonts-ttf
+i   liberation-fonts-ttf        ob
     libinput
 x   libreoffice
 i   libvterm
-    lxappearance
+i   lxappearance                ob
     lynx
 i   magit
 x   mc
@@ -116,14 +115,14 @@ i   neofetch                    b
     networkmgr
 i   nmap                        b
     nss_mdns
-    obconf
+i   obconf                      ob
 x   octopkg
 x   okular
-    openbox
+i   openbox                     ob
     p5-IO-KQueue
     p5-XML-LibXML
     papirus-icon-theme
-i   parcellite
+i   parcellite                  ob
 x   pcmanfm
 i   pdf-tools
     picom
@@ -140,36 +139,36 @@ x   plank
     py39-xdg
 i   python                      b
     python3
-i   qiv
+i   qiv                         ob
     qpdfview
 x   qt5-buildtools
 x   qt5-designer
     qt5-linguisttools
 x   qt5-qmake
 x   qt5-style-plugins
-    qt5ct
+i   qt5ct                       ob
     realtek-re-kmod
 x   redshift
 i   rsync                       b
     rtsx
 x   ru-aspell
 x   ru-hunspell
-i   rxvt-unicode
+i   rxvt-unicode                ob
     sakura
     sddm
     setxkbmap
     simplescreenrecorder
     sleuthkit
-i   slock
+i   slock                       ob
     smartmontools
-    sourcecodepro-ttf
+    sourcecodepro-ttf           ob
     sudo
-i   synergy
-i   terminus-font
+i   synergy                     ob
+i   terminus-font               ob
 i   the_silver_searcher         b
     thunar
 x   thunderbird
-    tint2
+i   tint2                       ob
 i   tmux                        b
 i   transmission-qt
 x   uk-aspell
@@ -184,15 +183,15 @@ x   vi-hunspell
 x   vlc
     webfonts
 i   wget                        b
-i   wmctrl
+i   wmctrl                      ob
     x264
     xarchiver
     xauth
-    xbindkeys
-i   xcape
-i   xclip
+i   xbindkeys                   ob
+i   xcape                       ob
+i   xclip                       ob
     xdg-user-dirs
-i   xdotool
+i   xdotool                     ob
     xdpyinfo
     xev
     xf86-input-libinput
@@ -212,12 +211,13 @@ i   xdotool
     xmag
     xmessage
 i   xmodmap
+i   xorg                        ob
 i   xorg-fonts
     xrandr
     xrdb
     xsane
-i   xterm
-i   xtermcontrol
+i   xterm                       ob
+i   xtermcontrol                ob
     zenity
 i   zile                        b
     zsh
