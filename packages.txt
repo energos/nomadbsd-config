@@ -61,7 +61,7 @@ x   fr-hunspell
     fusefs-hfsfuse
     fusefs-sshfs
 x   galculator
-i   gcc
+i   gcc                         b
 i   geany
 x   gimp-app
 x   gimp-gutenprint
@@ -77,6 +77,7 @@ i   hack-font
 x   hanazono-fonts-ttf
     hexchat
 x   hplip
+i   hs-ShellCheck               b
 i   htop                        b
 x   hu-aspell
 x   hu-hunspell
@@ -86,7 +87,7 @@ x   hu-hunspell
 i   inconsolata-ttf
 x   iw-aspell
 x   iw-hunspell
-i   julia
+i   julia                       b
 x   kate
 x   kdiff3
     keepassxc
