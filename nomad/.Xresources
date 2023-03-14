@@ -3,26 +3,36 @@
 #define HIGH_DPI
 
 #ifdef HIGH_DPI
-    #define XSERVER_DPI 144
     #define FIXED_FONT -*-lucidatypewriter-medium-r-normal-*-25-*-*-*-*-*-*-*
     #define CURSOR_SIZE 32
 #else
-    #define XSERVER_DPI 96
     #define FIXED_FONT -misc-fixed-medium-r-normal-*-20-*-*-*-*-*-*-*
     #define CURSOR_SIZE 16
+#endif
+
+#ifndef XSERVER_DPI
+    #define XSERVER_DPI 96
 #endif
 
 Xft.dpi:                XSERVER_DPI
 Xcursor.size:           CURSOR_SIZE
 
+#ifdef HIGH_DPI
 Emacs.font:             Iosevka Term 11
+#else
+Emacs.font:             -misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
+#endif
 Emacs.verticalScrollBars: off
 Emacs.menuBar:          off
 Emacs.toolBar:          0
 Emacs.geometry:         108x56
 Emacs.cursorBlink:      off
 
+#ifdef HIGH_DPI
 xterm*faceName:         Inconsolata:size=12
+#else
+xterm*font:             -misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
+#endif
 xterm*termName:         xterm-256color
 !xterm*iconHint:         /home/energos/.local/share/icons/utilities-terminal.xpm
 xterm*geometry:         80x26
@@ -32,8 +42,12 @@ xterm*foreground:       white
 xterm*metaSendsEscape:  true
 xterm*backarrowKey:     false
 
-URxvt*font:             xft:Iosevka:size=11
-!URxvt*font:             xft:Source Code Pro:size=11
+#ifdef HIGH_DPI
+URxvt*font:             xft:Iosevka Term:size=11
+!URxvt.letterSpace:      0
+#else
+URxvt*font:             -misc-fixed-medium-r-normal-*-14-*-*-*-*-*-*-*
+#endif
 URxvt*termName:         rxvt-unicode-256color
 URxvt*scrollBar:        false
 URxvt*savedLines:       1000
@@ -54,9 +68,12 @@ URxvt.color4:           RoyalBlue
 URxvt.color12:          LightSteelBlue
 !https://forums.gentoo.org/viewtopic-t-1030512-view-previous.html
 URxvt*preeditType:      Root
-!https://wiki.archlinux.org/title/IBus
-!URxvt*inputMethod: ibus
-!URxvt*preeditType: OverTheSpot
+!URxvt.color7:           gray75
+!URxvt.colorBD:          #ffffff
+!URxvt.colorUL:          LightSlateGrey
+!URxvt.colorIT:          SteelBlue
+!URxvt.cursorColor:      grey90
+!URxvt.highlightColor:   grey25
 
 Xmessage*font:          FIXED_FONT
 Xmessage*nearMouse:     FALSE
