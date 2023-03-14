@@ -3,11 +3,13 @@
 # i:    install          - pkg install $(awk '$1=="i"{print $2}' packages.txt)
 # b:    basic packages   - pkg install $(awk '$1=="i" && $3=="b"{print $2}' packages.txt)
 # ob:   openbox desktop  - pkg install $(awk '$1=="i" && $3=="ob"{print $2}' packages.txt)
+# emacs:
+# apps:
 
 x   Kvantum-qt5
 x   ar-aspell
     arandr
-i   artha
+i   artha                       apps
     aspell
     avahi-app
 i   bash                        b
@@ -21,14 +23,14 @@ i   bsdinfo                     b
     bwi-firmware-kmod
     bwn-firmware-kmod
 x   cantarell-fonts
-    cmake
+i   cmake                       b
 i   curl                        b
 i   dbus                        ob
     dconf
     ddrescue
 x   de-aspell
 x   de-hunspell
-i   deadbeef
+i   deadbeef                    apps
 i   dmenu                       ob
     doas
     drm-510-kmod
@@ -44,12 +46,12 @@ x   droid-fonts-ttf
     dsbmixer
     dunst
 i   e2fsprogs                   b
-i   emacs
+i   emacs                       emacs
     en-aspell
     en-hunspell
 i   feh                         ob
 x   filezilla
-    firefox-esr
+i   firefox-esr                 apps
     fish
 x   font-gost
 i   fortune-mod-freebsd-classic b
@@ -61,16 +63,16 @@ x   fr-hunspell
     fusefs-sshfs
 x   galculator
 i   gcc                         b
-i   geany
+i   geany                       apps
 x   gimp-app
 x   gimp-gutenprint
 i   git                         b
-i   gkrellm2
+i   gkrellm2                    apps
     gmake
 i   gnome-themes-extra          ob
     gnupg
     gpu-firmware-kmod
-i   graphviz
+i   graphviz                    apps
     gtkam
 i   hack-font                   ob
 x   hanazono-fonts-ttf
@@ -98,16 +100,16 @@ x   ktorrent
 i   liberation-fonts-ttf        ob
     libinput
 x   libreoffice
-i   libvterm
+i   libvterm                    emacs
 i   lxappearance                ob
     lynx
-i   magit
+i   magit                       emacs
 x   mc
 i   mc-nox11                    b
-i   meld
+i   meld                        apps
     metalock
     mosh
-i   mpv
+i   mpv                         apps
     mupdf
 i   nano                        b
 i   neofetch                    b
@@ -119,13 +121,14 @@ i   obconf                      ob
 x   octopkg
 x   okular
 i   openbox                     ob
+i   open-sans                   ob
     p5-IO-KQueue
     p5-XML-LibXML
     papirus-icon-theme
 i   parcellite                  ob
 x   pcmanfm
-i   pdf-tools
-    picom
+i   pdf-tools                   emacs
+i   picom                       ob
     pidgin
     pidgin-otr
 i   pkg                         b
@@ -161,7 +164,7 @@ i   rxvt-unicode                ob
     sleuthkit
 i   slock                       ob
     smartmontools
-    sourcecodepro-ttf           ob
+i   sourcecodepro-ttf           ob
     sudo
 i   synergy                     ob
 i   terminus-font               ob
@@ -205,7 +208,7 @@ i   xdotool                     ob
     xf86-video-vesa
     xf86-video-vmware
     xfce4-screenshooter-plugin
-    xfontsel
+i   xfontsel                    ob
     xinit
     xinput
     xmag
@@ -218,6 +221,7 @@ i   xorg-fonts
     xsane
 i   xterm                       ob
 i   xtermcontrol                ob
+i   yt-dlp                      apps
     zenity
 i   zile                        b
     zsh
