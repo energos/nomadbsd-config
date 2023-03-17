@@ -5,62 +5,69 @@
 # ob:   openbox desktop  - pkg install $(awk '$1=="i" && $3=="ob"{print $2}' packages.txt)
 # emacs:
 # apps:
+# kde:
+# office:
+
+
+
 
 x   Kvantum-qt5
 x   ar-aspell
-    arandr
+_   arandr
 i   artha                       apps
-    aspell
-    avahi-app
+i   aspell                      apps
+_   avahi-app
 i   bash                        b
 i   bash-completion             b
-    bitstream-vera
-    bonnie++
-i   bsdhwmon
+_   bitstream-vera
+_   bonnie++
+_   bsdhwmon
 i   bsdinfo                     b
-    bsdstats
-    bsdtris
-    bwi-firmware-kmod
-    bwn-firmware-kmod
+_   bsdstats
+_   bsdtris
+_   bwi-firmware-kmod
+_   bwn-firmware-kmod
+i   calibre                     office
 x   cantarell-fonts
 i   cmake                       b
 i   curl                        b
 i   dbus                        ob
-    dconf
-    ddrescue
+_   dconf
+_   ddrescue
 x   de-aspell
 x   de-hunspell
 i   deadbeef                    apps
 i   dmenu                       ob
-    doas
-    drm-510-kmod
-    drm-kmod
+_   doas
+x   dolphin                     kde
+_   drm-510-kmod
+_   drm-kmod
 x   droid-fonts-ttf
-    dsbautostart
-    dsbbatmon
-    dsbdriverd
-    dsblogoutmgr
-    dsbmc
-    dsbmc-cli
-    dsbmd
-    dsbmixer
-    dunst
+_   dsbautostart
+_   dsbbatmon
+_   dsbdriverd
+_   dsblogoutmgr
+_   dsbmc
+_   dsbmc-cli
+_   dsbmd
+i   dsbmixer                    apps
+_   dunst
 i   e2fsprogs                   b
 i   emacs                       emacs
-    en-aspell
-    en-hunspell
+i   en-aspell                   apps
+i   en-hunspell                 apps
 i   feh                         ob
 x   filezilla
 i   firefox-esr                 apps
-    fish
+_   fish
 x   font-gost
 i   fortune-mod-freebsd-classic b
 x   fr-aspell
 x   fr-hunspell
-    freefont-ttf
-    fusefs-ext2
-    fusefs-hfsfuse
-    fusefs-sshfs
+_   freefont-ttf
+_   fusefs-ext2
+_   fusefs-hfsfuse
+_   fusefs-sshfs
 x   galculator
 i   gcc                         b
 i   geany                       apps
@@ -68,160 +75,164 @@ x   gimp-app
 x   gimp-gutenprint
 i   git                         b
 i   gkrellm2                    apps
-    gmake
+_   gmake
 i   gnome-themes-extra          ob
-    gnupg
-    gpu-firmware-kmod
+_   gnupg
+_   gpu-firmware-kmod
 i   graphviz                    apps
-    gtkam
+i   gsimplecal                  ob
+_   gtkam
 i   hack-font                   ob
 x   hanazono-fonts-ttf
-    hexchat
+_   hexchat
 x   hplip
 i   hs-ShellCheck               b
 i   htop                        b
 x   hu-aspell
 x   hu-hunspell
-    hunspell
-    hw-probe
-    ibus
+i   hunspell                    apps
+_   hw-probe
+_   ibus
 i   inconsolata-ttf             ob
 x   iw-aspell
 x   iw-hunspell
 i   julia                       b
-x   kate
-x   kdiff3
-    keepassxc
+i   kate                        kde
+i   kdiff3                      kde
+_   keepassxc
+i   kf5-breeze-icons            ob
 x   ko-hunspell
-x   konsole
-x   kpat
+i   konsole                     kde
+i   kpat                        kde
 x   ktorrent
-    leafpad
+_   leafpad
 i   liberation-fonts-ttf        ob
-    libinput
-x   libreoffice
+_   libinput
+i   libreoffice                 office
 i   libvterm                    emacs
 i   lxappearance                ob
-    lynx
+_   lynx
 i   magit                       emacs
 x   mc
 i   mc-nox11                    b
 i   meld                        apps
-    metalock
-    mosh
+_   metalock
+_   mosh
 i   mpv                         apps
-    mupdf
+_   mupdf
 i   nano                        b
 i   neofetch                    b
-    neomutt
-    networkmgr
+_   neomutt
+_   networkmgr
 i   nmap                        b
-    nss_mdns
+_   nss_mdns
 i   obconf                      ob
 x   octopkg
-x   okular
-i   openbox                     ob
+i   okular                      kde
 i   open-sans                   ob
-    p5-IO-KQueue
-    p5-XML-LibXML
-    papirus-icon-theme
+i   openbox                     ob
+_   p5-IO-KQueue
+_   p5-XML-LibXML
+_   papirus-icon-theme
 i   parcellite                  ob
 x   pcmanfm
 i   pdf-tools                   emacs
 i   picom                       ob
-    pidgin
-    pidgin-otr
+_   pidgin
+_   pidgin-otr
 i   pkg                         b
-    pkgconf
+_   pkgconf
 x   pl-aspell
 x   pl-hunspell
 x   plank
-    powerdxx
-    pt-hunspell
-    py39-qt5
-    py39-xdg
+_   powerdxx
+i   pt-hunspell                 apps
+i   pt_BR-aspell                apps
+_   py39-qt5
+_   py39-xdg
 i   python                      b
-    python3
+_   python3
 i   qiv                         ob
-    qpdfview
+x   qpdfview
 x   qt5-buildtools
-x   qt5-designer
-    qt5-linguisttools
+_   qt5-designer
+_   qt5-linguisttools
 x   qt5-qmake
 x   qt5-style-plugins
 i   qt5ct                       ob
-    realtek-re-kmod
+_   realtek-re-kmod
 x   redshift
 i   rsync                       b
-    rtsx
+_   rtsx
 x   ru-aspell
 x   ru-hunspell
 i   rxvt-unicode                ob
-    sakura
-    sddm
-    setxkbmap
-    simplescreenrecorder
-    sleuthkit
+_   sakura
+_   sddm
+_   setxkbmap
+_   simplescreenrecorder
+_   sleuthkit
 i   slock                       ob
-    smartmontools
+_   smartmontools
 i   sourcecodepro-ttf           ob
-    sudo
+i   spectacle                   kde
+_   sudo
 i   synergy                     ob
 i   terminus-font               ob
 i   the_silver_searcher         b
-    thunar
+i   thunar                      apps
 x   thunderbird
 i   tint2                       ob
 i   tmux                        b
 i   transmission-qt
 x   uk-aspell
 x   uk-hunspell
-    urwfonts
-    urwfonts-ttf
+i   urwfonts                    ob
+i   urwfonts-ttf                ob
 x   vi-aspell
 x   vi-hunspell
-    viewnior
-    vim-x11
-    virtualbox-ose-additions
+_   viewnior
+_   vim-x11
+_   virtualbox-ose-additions
 x   vlc
-    webfonts
+_   webfonts
 i   wget                        b
 i   wmctrl                      ob
-    x264
-    xarchiver
-    xauth
+_   x264
+_   xarchiver
+_   xauth
 i   xbindkeys                   ob
 i   xcape                       ob
 i   xclip                       ob
-    xdg-user-dirs
+i   xdg-user-dirs               ob
 i   xdotool                     ob
-    xdpyinfo
-    xev
-    xf86-input-libinput
-    xf86-input-vmmouse
-    xf86-video-amdgpu
-    xf86-video-ati
-    xf86-video-intel
-    xf86-video-nv
-    xf86-video-openchrome
-    xf86-video-scfb
-    xf86-video-vesa
-    xf86-video-vmware
-    xfce4-screenshooter-plugin
+_   xdpyinfo
+_   xev
+_   xf86-input-libinput
+_   xf86-input-vmmouse
+_   xf86-video-amdgpu
+_   xf86-video-ati
+_   xf86-video-intel
+_   xf86-video-nv
+_   xf86-video-openchrome
+_   xf86-video-scfb
+_   xf86-video-vesa
+_   xf86-video-vmware
+_   xfce4-screenshooter-plugin
 i   xfontsel                    ob
-    xinit
-    xinput
-    xmag
-    xmessage
+_   xinit
+_   xinput
+_   xmag
+_   xmessage
 i   xmodmap
 i   xorg                        ob
 i   xorg-fonts
-    xrandr
-    xrdb
-    xsane
+_   xrandr
+_   xrdb
+_   xsane
 i   xterm                       ob
 i   xtermcontrol                ob
 i   yt-dlp                      apps
-    zenity
+x   zenity
 i   zile                        b
-    zsh
+_   zsh
