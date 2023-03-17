@@ -372,7 +372,9 @@
 (use-package embark
   :bind
   (("C-."   . embark-act)         ;; pick some comfortable binding
+   ("H-."   . embark-act)
    ("C-;"   . embark-dwim)        ;; good alternative: M-.
+   ("H-<f13>" . embark-dwim)
    ("C-h B" . embark-bindings))   ;; alternative for `describe-bindings'
   :init
   ;; Optionally replace the key help with a completing-read interface
@@ -402,10 +404,36 @@
            ("<end>"    . image-eob)
            ("<C-home>" . pdf-view-first-page)
            ("<C-end>"  . pdf-view-last-page))
-(load "pdf-tools-init.el")
+;; ugly hack...
+(when (eq system-type 'berkeley-unix)
+  (load "pdf-tools-init.el"))
 (pdf-tools-install)
 (setq-default pdf-view-display-size 'fit-page)
 (setq pdf-view-midnight-colors '("#eaeaea" . "#181a26"))
+
+;; ace-window
+;; https://github.com/abo-abo/ace-window
+;; https://packages.gentoo.org/packages/app-emacs/ace-window
+(unless (require 'ace-window nil t)
+  (use-package ace-window))
+(bind-keys ("H-o" . ace-window))
+(setq aw-dispatch-always t)
+
+;; https://karthinks.com/software/fifteen-ways-to-use-embark/
+(require 'embark)
+(eval-when-compile
+  (defmacro embark-ace-action (fn)
+    `(defun ,(intern (concat "embark-ace-" (symbol-name fn))) ()
+       (interactive)
+       (with-demoted-errors "%s"
+         (require 'ace-window)
+         (let ((aw-dispatch-always t))
+           (aw-switch-to-window (aw-select nil))
+           (call-interactively (symbol-function ',fn)))))))
+
+(define-key embark-file-map     (kbd "o") (embark-ace-action find-file))
+(define-key embark-buffer-map   (kbd "o") (embark-ace-action switch-to-buffer))
+(define-key embark-bookmark-map (kbd "o") (embark-ace-action bookmark-jump))
 
 ;; calibredb
 ;; https://github.com/chenyanming/calibredb.el
@@ -562,6 +590,18 @@ If DEC is nil or absent: Return N+1 if 0≤N<MAX, 0 if N<0, MAX if N≥MAX."
         (unhighlight-regexp regexp)))))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ORG-MODE
+
+;; TODO...
+
+;; ;; --- preferences ---
+(setq org-replace-disputed-keys t)
+
+;; --- restore old shortcuts for structure templates ---
+;; https://orgmode.org/manual/Structure-Templates.html
+(require 'org-tempo)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KEYBOARD SHORTCUTS
 
 ;; --- Use hippie-expand instead of dabbrev-expand ---
@@ -693,7 +733,6 @@ Move point to the previous position that is the beggining of a symbol."
 ;; ???
 (global-set-key (kbd "H-c") (kbd "C-c C-c"))
 (global-set-key (kbd "H-e") (kbd "C-x C-e"))
-(global-set-key (kbd "H-<f13>") (kbd "C-x C-e"))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AREA 51
