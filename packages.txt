@@ -9,14 +9,14 @@
 # office:
 
 
-
-
 x   Kvantum-qt5
+i   alsa-utils                  ob
 x   ar-aspell
 _   arandr
-i   artha                       apps
+_   artha                       apps
 i   aspell                      apps
 _   avahi-app
+i   base64                      b
 i   bash                        b
 i   bash-completion             b
 _   bitstream-vera
@@ -41,7 +41,7 @@ i   dmenu                       ob
 _   doas
 x   dolphin                     kde
 _   drm-510-kmod
-_   drm-kmod
+i   drm-kmod                    ob
 x   droid-fonts-ttf
 _   dsbautostart
 _   dsbbatmon
@@ -76,6 +76,7 @@ x   gimp-gutenprint
 i   git                         b
 i   gkrellm2                    apps
 _   gmake
+i   gmrun                       ob
 i   gnome-themes-extra          ob
 _   gnupg
 _   gpu-firmware-kmod
@@ -101,6 +102,7 @@ i   kate                        kde
 i   kdiff3                      kde
 _   keepassxc
 i   kf5-breeze-icons            ob
+i   kitty                       apps
 x   ko-hunspell
 i   konsole                     kde
 i   kpat                        kde
@@ -119,6 +121,7 @@ i   meld                        apps
 _   metalock
 _   mosh
 i   mpv                         apps
+i   multitail                   b
 _   mupdf
 i   nano                        b
 i   neofetch                    b
@@ -133,8 +136,10 @@ i   open-sans                   ob
 i   openbox                     ob
 _   p5-IO-KQueue
 _   p5-XML-LibXML
+i   pamixer                     ob
 _   papirus-icon-theme
 i   parcellite                  ob
+i   pavucontrol                 ob
 x   pcmanfm
 i   pdf-tools                   emacs
 i   picom                       ob
@@ -162,6 +167,7 @@ x   qt5-style-plugins
 i   qt5ct                       ob
 _   realtek-re-kmod
 x   redshift
+i   ripgrep                     b
 i   rsync                       b
 _   rtsx
 x   ru-aspell
@@ -184,7 +190,8 @@ i   thunar                      apps
 x   thunderbird
 i   tint2                       ob
 i   tmux                        b
-i   transmission-qt
+_   transmission-qt
+i   tree                        b
 x   uk-aspell
 x   uk-hunspell
 i   urwfonts                    ob
@@ -198,6 +205,7 @@ x   vlc
 _   webfonts
 i   wget                        b
 i   wmctrl                      ob
+i   wordnet                     apps
 _   x264
 _   xarchiver
 _   xauth
@@ -210,10 +218,10 @@ _   xdpyinfo
 _   xev
 _   xf86-input-libinput
 _   xf86-input-vmmouse
-_   xf86-video-amdgpu
-_   xf86-video-ati
-_   xf86-video-intel
-_   xf86-video-nv
+i   xf86-video-amdgpu           ob
+i   xf86-video-ati              ob
+i   xf86-video-intel            ob
+i   xf86-video-nv               ob
 _   xf86-video-openchrome
 _   xf86-video-scfb
 _   xf86-video-vesa
