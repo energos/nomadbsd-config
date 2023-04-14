@@ -220,7 +220,7 @@ _   xf86-input-libinput
 _   xf86-input-vmmouse
 i   xf86-video-amdgpu           ob
 i   xf86-video-ati              ob
-i   xf86-video-intel            ob
+_   xf86-video-intel            crash!
 i   xf86-video-nv               ob
 _   xf86-video-openchrome
 _   xf86-video-scfb
